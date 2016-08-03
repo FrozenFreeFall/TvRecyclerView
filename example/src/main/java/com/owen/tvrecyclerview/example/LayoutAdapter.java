@@ -17,10 +17,8 @@
 package com.owen.tvrecyclerview.example;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,35 +78,12 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
         return new SimpleViewHolder(view);
     }
 
-//    View oldView;
-    
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         holder.title.setText(mItems.get(position).toString());
 
         boolean isVertical = (mRecyclerView.getOrientation() == TwoWayLayoutManager.Orientation.VERTICAL);
         final View itemView = holder.itemView;
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("onClick", "parent Width="+mRecyclerView.getWidth() + "parent Height=" + mRecyclerView.getHeight());
-                Log.d("onClick", "getWidth="+v.getWidth() + "getHeight=" + v.getHeight());
-                Rect outRect = new Rect();
-                mRecyclerView.getLayoutManager().calculateItemDecorationsForChild(v, outRect);
-                Log.d("onClick", "outRect.top="+outRect.top + " ,outRect.bottom=" + outRect.bottom + " ,outRect.left="+outRect.left + " ,outRect.right="+outRect.right);
-            }
-        });
-        itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    v.animate().scaleX(1.4f).scaleY(1.4f).setDuration(300).start();
-                } else {
-                    v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).start();
-                }
-            }
-        });
-
         final int itemId = mItems.get(position);
 
         if (mLayoutId == R.layout.layout_staggered_grid) {

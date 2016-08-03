@@ -20,8 +20,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 
 public class MainActivity extends AppCompatActivity {
+    private final String LOGTAG = MainActivity.class.getSimpleName();
     private final String ARG_SELECTED_LAYOUT_ID = "selectedLayoutId";
 
     private final int DEFAULT_LAYOUT = R.layout.layout_list;
@@ -67,6 +70,17 @@ public class MainActivity extends AppCompatActivity {
                 .setIcon(iconId)
                 .setTabListener(new TabListener(layoutId, tag));
         actionBar.addTab(tab, layoutId == mSelectedLayoutId);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(LOGTAG, "keyCode="+keyCode);
+        return super.onKeyDown(keyCode, event);
     }
 
     public class TabListener implements ActionBar.TabListener {

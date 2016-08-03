@@ -86,26 +86,25 @@ public class LayoutFragment extends Fragment {
         mStateText = (TextView) view.getRootView().findViewById(R.id.state);
         updateState(SCROLL_STATE_IDLE);
 
-        /*final ItemClickSupport itemClick = ItemClickSupport.addTo(mRecyclerView);
-
-        itemClick.setOnItemClickListener(new OnItemClickListener() {
+        mRecyclerView.setOnItemListener(new TvRecyclerView.OnItemListener() {
             @Override
-            public void onItemClick(RecyclerView parent, View child, int position, long id) {
-                mToast.setText("Item clicked: " + position);
+            public void onItemPreSelected(TvRecyclerView parent, View itemView, int position) {
+                itemView.animate().scaleX(1f).scaleY(1f).setDuration(300).start();
+            }
+
+            @Override
+            public void onItemSelected(TvRecyclerView parent, View itemView, int position) {
+                itemView.animate().scaleX(1.4f).scaleY(1.4f).setDuration(300).start();
+            }
+
+            @Override
+            public void onItemClick(TvRecyclerView parent, View itemView, int position) {
+                mToast.setText("onItemClick::"+position);
                 mToast.show();
             }
         });
-
-        itemClick.setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(RecyclerView parent, View child, int position, long id) {
-                mToast.setText("Item long pressed: " + position);
-                mToast.show();
-                return true;
-            }
-        });*/
         
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
                 updateState(scrollState);
@@ -131,6 +130,7 @@ public class LayoutFragment extends Fragment {
         }
         
         // 通过Margins来设置布局的横纵间距(与addItemDecoration()方法可二选一)
+        // 推荐使用此方法
         mRecyclerView.setSpacingWithMargins(18, 18);
         
         // 设置选中的Item距离开始或结束的偏移量（与setSelectedItemAtCentered()方法二选一）
@@ -164,4 +164,5 @@ public class LayoutFragment extends Fragment {
     public int getLayoutId() {
         return getArguments().getInt(ARG_LAYOUT_ID);
     }
+    
 }
