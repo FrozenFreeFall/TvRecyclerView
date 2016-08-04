@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 
-import static android.support.v7.widget.RecyclerView.HORIZONTAL;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
@@ -117,21 +116,14 @@ public class LayoutFragment extends Fragment {
             }
         });
         
-        if(mLayoutId == R.layout.layout_grid2) {
-            IGridLayoutManager manager = new IGridLayoutManager(getContext(), 3);
-            manager.setOrientation(HORIZONTAL);
-            mRecyclerView.setLayoutManager(manager);
-        } else {
-//            final Drawable divider = getResources().getDrawable(R.drawable.divider);
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(divider));
-//            mRecyclerView.addItemDecoration(new SpacingItemDecoration(20, 20));
-            
-//        mRecyclerView.setOrientation(TwoWayLayoutManager.Orientation.VERTICAL);
-        }
         
+//      final Drawable divider = getResources().getDrawable(R.drawable.divider);
+//      mRecyclerView.addItemDecoration(new DividerItemDecoration(divider));
+//      mRecyclerView.addItemDecoration(new SpacingItemDecoration(20, 20));
         // 通过Margins来设置布局的横纵间距(与addItemDecoration()方法可二选一)
         // 推荐使用此方法
         mRecyclerView.setSpacingWithMargins(18, 18);
+        
         
         // 设置选中的Item距离开始或结束的偏移量（与setSelectedItemAtCentered()方法二选一）
         mRecyclerView.setSelectedItemOffset(120, 120);
@@ -156,7 +148,6 @@ public class LayoutFragment extends Fragment {
                 stateName = "Flinging";
                 break;
         }
-//        Log.v("TwoWayView", "scrollState = "+stateName);
         
         mStateText.setText(stateName);
     }

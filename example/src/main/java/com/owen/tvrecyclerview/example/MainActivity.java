@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
         addLayoutTab(
                 actionBar, R.layout.layout_staggered_grid, R.drawable.ic_staggered, "staggered");
         addLayoutTab(
-                actionBar, R.layout.layout_spannable_grid, R.drawable.ic_spannable, "spannable");
-        addLayoutTab(
-                actionBar, R.layout.layout_grid2, R.drawable.ic_grid, "grid2");
+                actionBar, R.layout.layout_spannable_grid, R.drawable.selector_ic_spannable, "spannable");
     }
 
     @Override
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addLayoutTab(ActionBar actionBar, int layoutId, int iconId, String tag) {
         ActionBar.Tab tab = actionBar.newTab()
-                .setText(tag)
+//                .setText(tag)
                 .setIcon(iconId)
                 .setTabListener(new TabListener(layoutId, tag));
         actionBar.addTab(tab, layoutId == mSelectedLayoutId);

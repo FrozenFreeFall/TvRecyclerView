@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -85,7 +86,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
 
     private void init(Context context){
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
-//        setDescendantFocusability(FOCUS_BEFORE_DESCENDANTS);
         setChildrenDrawingOrderEnabled(true);
         setWillNotDraw(true); // 自身不作onDraw处理
         setHasFixedSize(true);
@@ -128,10 +128,6 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
     @Override
     public void setLayoutManager(LayoutManager layout) {
         mIsBaseLayoutManager = layout instanceof BaseLayoutManager;
-//        if (!(layout instanceof TwoWayLayoutManager)) {
-//            throw new IllegalArgumentException("TwoWayView can only use TwoWayLayoutManager " +
-//                                                "subclasses as its layout manager");
-//        }
         super.setLayoutManager(layout);
     }
 
@@ -160,6 +156,9 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
         if(mIsBaseLayoutManager) {
             BaseLayoutManager layout = (BaseLayoutManager) getLayoutManager();
             return layout.isVertical();
+        } else if (getLayoutManager() instanceof LinearLayoutManager) {
+            LinearLayoutManager layout = (LinearLayoutManager) getLayoutManager();
+            return layout.getOrientation() == LinearLayoutManager.VERTICAL;
         }
         return true;
     }

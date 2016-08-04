@@ -17,7 +17,6 @@
 package com.owen.tvrecyclerview.example;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,27 +125,15 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
             final int span1 = (itemId == 0 || itemId == 6 || itemId == 13 || itemId == 5 ? 2 : 1);
             final int span2 = (itemId == 0 || itemId == 6 || itemId == 13 ? 2 : itemId == 5 ? 4 : 1);
 
-//            int span1 = 1;
-//            int span2 = 1;
-            
             final int colSpan = (isVertical ? span2 : span1);
             final int rowSpan = (isVertical ? span1 : span2);
-//            lp.setMargins(15, 15, 15, 15);
             if (lp.rowSpan != rowSpan || lp.colSpan != colSpan) {
                 lp.rowSpan = rowSpan;
                 lp.colSpan = colSpan;
                 
                 itemView.setLayoutParams(lp);
             }
-        } else if(mLayoutId == R.layout.layout_grid2) {
-            GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) itemView.getLayoutParams();
-            lp.width = 200;
-//            lp.setMargins(4, 4, 4, 4);
-//            if(position % 2 == 0) {
-//                lp.getViewLayoutPosition()
-//            }
-            itemView.setLayoutParams(lp);
-        }
+        } 
     }
 
     @Override
