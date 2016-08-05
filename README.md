@@ -23,6 +23,8 @@ compile 'com.tv.boost:tv-recyclerview:1.0.0'
 
 ### 特性
 
+- [x] 支持焦点快速移动
+
 - [x] 支持横/竖排列
     ```java
     android:orientation="horizontal"
