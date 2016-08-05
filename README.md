@@ -25,6 +25,8 @@ compile 'com.tv.boost:tv-recyclerview:1.0.0'
 
 - [x] 支持焦点快速移动
 
+- [x] 支持Item选中放大时不被叠压(无需手动调用bringChildToFront())
+
 - [x] 支持横/竖排列
     ```java
     android:orientation="horizontal"
