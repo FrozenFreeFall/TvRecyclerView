@@ -15,11 +15,30 @@
    limitations under the License.
 -->
 
-<com.owen.tvrecyclerview.widget.TvRecyclerView
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    style="@style/TwoWayView"
-    app:tv_layoutManager="ListLayoutManager"/>
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="50dp"
+        android:layout_height="500dp"/>
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="50dp"
+        android:layout_height="500dp"
+        android:layout_alignParentRight="true"/>
+
+    <com.owen.tvrecyclerview.widget.TvRecyclerView
+        android:id="@+id/list"
+        style="@style/TwoWayView"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/btn2"
+        android:layout_toRightOf="@id/btn1"
+        app:tv_layoutManager="ListLayoutManager"/>
+</RelativeLayout>

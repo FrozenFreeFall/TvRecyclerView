@@ -36,7 +36,7 @@ import com.owen.tvrecyclerview.TwoWayLayoutManager;
 
 import java.lang.reflect.Constructor;
 
-public class TvRecyclerView extends RecyclerView implements View.OnClickListener, View.OnFocusChangeListener {
+public class TvRecyclerView extends RecyclerView {
     private static final String LOGTAG = TvRecyclerView.class.getSimpleName();
     private static final int DEFAULT_SELECTED_ITEM_OFFSET = 40;
 
@@ -51,6 +51,8 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
 
     private int mScrollState = SCROLL_STATE_IDLE;
     private OnItemListener mOnItemListener;
+    
+    private ItemListener mItemListener;
 
     private static final Class<?>[] sConstructorSignature = new Class[] {
             Context.class, AttributeSet.class};
@@ -97,6 +99,38 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
         setClickable(false);
         setFocusable(true);
         setFocusableInTouchMode(true);
+
+        mItemListener = new ItemListener() {
+            /**
+             * 子控件的点击事件
+             * @param itemView
+             */
+            @Override
+            public void onClick(View itemView) {
+                if(null != mOnItemListener) {
+                    mOnItemListener.onItemClick(TvRecyclerView.this, itemView, getChildLayoutPosition(itemView));
+                }
+            }
+
+            /**
+             * 子控件的焦点变动事件
+             * @param itemView
+             * @param hasFocus
+             */
+            @Override
+            public void onFocusChange(View itemView, boolean hasFocus) {
+                if(null != mOnItemListener) {
+                    if(null != itemView) {
+                        itemView.setSelected(hasFocus);
+                        if (hasFocus) {
+                            mOnItemListener.onItemSelected(TvRecyclerView.this, itemView, getChildLayoutPosition(itemView));
+                        } else {
+                            mOnItemListener.onItemPreSelected(TvRecyclerView.this, itemView, getChildLayoutPosition(itemView));
+                        }
+                    }
+                }
+            }
+        };
     }
     
     private void loadLayoutManagerFromName(Context context, AttributeSet attrs, String name) {
@@ -303,6 +337,25 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
             return getChildLayoutPosition(getChildAt(childCount - 1));
     }
     
+    public void scrollToPositionWithOffset(int position) {
+        if(mIsBaseLayoutManager) {
+            BaseLayoutManager layout = (BaseLayoutManager) getLayoutManager();
+            layout.scrollToPositionWithOffset(position, mSelectedItemOffsetStart);
+            return;
+        }
+        scrollToPosition(position);
+    }
+
+//    @Override
+//    public void scrollToPosition(int position) {
+//        if(mIsBaseLayoutManager) {
+//            BaseLayoutManager layout = (BaseLayoutManager) getLayoutManager();
+//            layout.scrollToPosition(position);
+//            return;
+//        }
+//        super.scrollToPosition(position);
+//    }
+
     int position = 0;
     @Override
     protected int getChildDrawingOrder(int childCount, int i) {
@@ -351,13 +404,7 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return true;
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        boolean result;
         int direction = -1;
         switch (keyCode){
             case KeyEvent.KEYCODE_DPAD_DOWN:
@@ -375,16 +422,15 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
         }
         
         if(direction == -1 || hasInBorder(direction)) {
-            result = false;
+            return false;
         } else {
             FocusFinder ff = FocusFinder.getInstance();
             View newFocusedView = ff.findNextFocus(this, getFocusedChild(), direction);
             if (null != newFocusedView) {
                 newFocusedView.requestFocus();
             }
-            result = true;
         }
-        return result;
+        return true;
     }
     
     private boolean hasInBorder(int direction) {
@@ -426,8 +472,8 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
 
     @Override
     public void onChildAttachedToWindow(View child) {
-        child.setOnClickListener(this);
-        child.setOnFocusChangeListener(this);
+        child.setOnClickListener(mItemListener);
+        child.setOnFocusChangeListener(mItemListener);
     }
 
     @Override
@@ -454,31 +500,7 @@ public class TvRecyclerView extends RecyclerView implements View.OnClickListener
         }
     }
 
-    /**
-     * 子控件的点击事件
-     * @param itemView
-     */
-    @Override
-    public void onClick(View itemView) {
-        if(null != mOnItemListener) {
-            mOnItemListener.onItemClick(this, itemView, getChildLayoutPosition(itemView));
-        }
-    }
-
-    /**
-     * 子控件的焦点变动事件
-     * @param itemView
-     * @param hasFocus
-     */
-    @Override
-    public void onFocusChange(View itemView, boolean hasFocus) {
-        if(null != mOnItemListener) {
-            if(hasFocus) {
-                mOnItemListener.onItemSelected(this, itemView, getChildLayoutPosition(itemView));
-            } else {
-                mOnItemListener.onItemPreSelected(this, itemView, getChildLayoutPosition(itemView));
-            }
-        }
+    private interface ItemListener extends View.OnClickListener, View.OnFocusChangeListener {
     }
 
     public interface OnItemListener {

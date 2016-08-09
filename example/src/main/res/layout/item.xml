@@ -24,4 +24,5 @@
     android:textStyle="bold"
     android:textSize="22sp"
           android:focusable="true"
+          android:clickable="true"
     android:background="@drawable/item_background"/>

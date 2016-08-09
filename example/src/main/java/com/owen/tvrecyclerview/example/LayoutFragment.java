@@ -74,6 +74,16 @@ public class LayoutFragment extends Fragment {
 
         mToast = Toast.makeText(activity, "", Toast.LENGTH_SHORT);
         mToast.setGravity(Gravity.CENTER, 0, 0);
+        
+        View btnView = view.findViewById(R.id.btn1);
+        if(null != btnView) {
+            btnView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mRecyclerView.smoothScrollToPosition(15);
+                }
+            });
+        }
 
         mRecyclerView = (TvRecyclerView) view.findViewById(R.id.list);
         mRecyclerView.setHasFixedSize(true);
@@ -126,9 +136,9 @@ public class LayoutFragment extends Fragment {
         
         
         // 设置选中的Item距离开始或结束的偏移量（与setSelectedItemAtCentered()方法二选一）
-        mRecyclerView.setSelectedItemOffset(120, 120);
+//        mRecyclerView.setSelectedItemOffset(120, 120);
         // 设置选中的Item居中（与setSelectedItemOffset()方法二选一）
-//        mRecyclerView.setSelectedItemAtCentered(true);
+        mRecyclerView.setSelectedItemAtCentered(true);
 
         mRecyclerView.setAdapter(new LayoutAdapter(activity, mRecyclerView, mLayoutId));
     }
